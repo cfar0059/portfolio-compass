@@ -1,42 +1,33 @@
-import { Flame, User } from 'lucide-react';
+import { User, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { NavLink } from '@/components/NavLink';
+import { useLocation } from 'react-router-dom';
+
+const pageTitles: Record<string, string> = {
+  '/': 'Overview',
+  '/positions': 'Positions',
+  '/benchmarks': 'Benchmarks',
+  '/alerts': 'Alerts',
+  '/profile': 'Profile',
+};
 
 export function Header() {
+  const location = useLocation();
+  const pageTitle = pageTitles[location.pathname] || 'Dashboard';
+
   return (
-    <header className="h-14 border-b border-border bg-card flex items-center justify-between px-4 lg:px-6">
-      <div className="flex items-center gap-4">
+    <header className="h-12 border-b border-border bg-card flex items-center justify-between px-4">
+      <div className="flex items-center gap-3">
         <SidebarTrigger className="lg:hidden" />
-        <div className="flex items-center gap-2 lg:hidden">
-          <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
-            <Flame className="w-4 h-4 text-primary-foreground" />
-          </div>
-          <span className="font-semibold text-foreground">JustDCA</span>
-        </div>
+        <h1 className="text-sm font-medium text-foreground">{pageTitle}</h1>
       </div>
 
-      <nav className="hidden md:flex items-center gap-6">
-        <NavLink
-          to="/"
-          end
-          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          activeClassName="text-foreground"
-        >
-          Overview
-        </NavLink>
-        <NavLink
-          to="/profile"
-          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          activeClassName="text-foreground"
-        >
-          Profile
-        </NavLink>
-      </nav>
-
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" className="rounded-full">
-          <User className="w-5 h-5" />
+      <div className="flex items-center gap-2">
+        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+          <Settings className="w-4 h-4" />
+        </Button>
+        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+          <User className="w-4 h-4" />
         </Button>
       </div>
     </header>
