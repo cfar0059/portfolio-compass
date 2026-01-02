@@ -12,13 +12,19 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { mockPositions, calculateProfit, Position } from '@/data/mockPositions';
 import { cn } from '@/lib/utils';
+import { AddPositionDialog } from './AddPositionDialog';
+import { toast } from 'sonner';
 
 type SortField = 'symbol' | 'price' | 'change' | 'shares' | 'buyPrice' | 'profit' | 'dcaAmount';
 type SortDirection = 'asc' | 'desc';
 
 export function PositionsTable() {
+  const [positions, setPositions] = useState<Position[]>(mockPositions);
   const [sortField, setSortField] = useState<SortField>('profit');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+
+  const existingSymbols = positions.map((p) => p.symbol.toUpperCase());
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -29,7 +35,21 @@ export function PositionsTable() {
     }
   };
 
-  const sortedPositions = [...mockPositions].sort((a, b) => {
+  const handleAddPosition = (newPosition: Omit<Position, 'id' | 'price' | 'change'>) => {
+    const position: Position = {
+      id: crypto.randomUUID(),
+      symbol: newPosition.symbol,
+      price: newPosition.buyPrice, // Default price to buy price for new positions
+      change: 0,
+      shares: newPosition.shares,
+      buyPrice: newPosition.buyPrice,
+      dcaAmount: newPosition.dcaAmount,
+    };
+    setPositions((prev) => [...prev, position]);
+    toast.success(`${newPosition.symbol} added to your portfolio`);
+  };
+
+  const sortedPositions = [...positions].sort((a, b) => {
     let aValue: number;
     let bValue: number;
 
@@ -71,12 +91,19 @@ export function PositionsTable() {
           <Button variant="ghost" size="icon">
             <RefreshCw className="w-4 h-4" />
           </Button>
-          <Button size="sm" className="gap-2">
+          <Button size="sm" className="gap-2" onClick={() => setIsAddDialogOpen(true)}>
             <Plus className="w-4 h-4" />
             Add
           </Button>
         </div>
       </div>
+
+      <AddPositionDialog
+        open={isAddDialogOpen}
+        onOpenChange={setIsAddDialogOpen}
+        existingSymbols={existingSymbols}
+        onAddPosition={handleAddPosition}
+      />
 
       <div className="rounded-lg border border-border bg-card overflow-hidden">
         <Table>
