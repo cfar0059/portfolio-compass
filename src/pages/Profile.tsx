@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 const Profile = () => {
   return (
     <DashboardLayout>
-      <div className="space-y-6 max-w-2xl">
+      <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Profile</h1>
           <p className="text-muted-foreground">Manage your account settings</p>
@@ -65,18 +65,6 @@ const Profile = () => {
             </div>
 
             <Button className="mt-4">Save Changes</Button>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-card border-border">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-foreground flex items-center gap-2">
-              <Shield className="w-5 h-5 text-muted-foreground" />
-              Security
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Button variant="outline">Change Password</Button>
           </CardContent>
         </Card>
       </div>
