@@ -8,6 +8,8 @@ import Positions from "./pages/Positions";
 import Benchmarks from "./pages/Benchmarks";
 import Alerts from "./pages/Alerts";
 import Profile from "./pages/Profile";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +26,8 @@ const App = () => (
           <Route path="/benchmarks" element={<Benchmarks />} />
           <Route path="/alerts" element={<Alerts />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
