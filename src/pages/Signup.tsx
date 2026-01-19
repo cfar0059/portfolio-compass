@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -13,16 +15,40 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { signUp } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     if (password !== confirmPassword) {
-      console.error("Passwords don't match");
+      toast({
+        title: "Passwords don't match",
+        description: "Please make sure your passwords match.",
+        variant: "destructive",
+      });
       return;
     }
+    
     setIsLoading(true);
-    // TODO: Implement actual signup logic with Supabase
-    console.log("Signup attempt:", { email, password });
+    
+    const { error } = await signUp(email, password);
+    
+    if (error) {
+      toast({
+        title: "Signup failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Account created!",
+        description: "Welcome to JustDCA. Please complete your profile.",
+      });
+      navigate("/profile");
+    }
+    
     setIsLoading(false);
   };
 
