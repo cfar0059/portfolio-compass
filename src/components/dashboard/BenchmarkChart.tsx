@@ -12,7 +12,7 @@ export function BenchmarkChart() {
   const [selectedRange, setSelectedRange] = useState<TimeRange>('1M');
 
   return (
-    <Card className="bg-card border-border">
+    <Card className="bg-card border-border h-full">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-lg font-semibold text-foreground">
           Portfolio vs S&P 500
