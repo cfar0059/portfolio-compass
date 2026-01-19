@@ -13,7 +13,7 @@ export function DcaAlertCard({ variant = 'default' }: DcaAlertCardProps) {
   const isCompact = variant === 'compact';
 
   return (
-    <Card className={cn("bg-card border-border", isCompact && "h-full")}>
+    <Card className={cn("bg-card border-border flex flex-col", isCompact && "h-full")}>
       <CardHeader className={cn(
         "flex flex-row items-center justify-between",
         isCompact ? "pb-3" : "pb-2"
