@@ -9,10 +9,16 @@ export function DcaAlertCard() {
   return (
     <Card className="bg-card border-border">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-lg font-semibold text-foreground flex items-center gap-2">
+        <div className="flex items-center gap-2">
           <Bell className="w-5 h-5 text-primary" />
-          Upcoming DCA Triggers
-        </CardTitle>
+          <CardTitle className="text-lg font-semibold text-foreground">
+            Upcoming DCA Triggers
+          </CardTitle>
+        </div>
+        <Button variant="outline" size="sm">
+          <Bell className="w-4 h-4 mr-2" />
+          Subscribe to Email Alerts
+        </Button>
       </CardHeader>
       <CardContent className="space-y-3">
         {mockDcaAlerts.map((alert) => (
@@ -47,11 +53,6 @@ export function DcaAlertCard() {
             </div>
           </div>
         ))}
-
-        <Button className="w-full mt-4" variant="outline">
-          <Bell className="w-4 h-4 mr-2" />
-          Subscribe to Email Alerts
-        </Button>
       </CardContent>
     </Card>
   );
