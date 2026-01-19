@@ -15,7 +15,7 @@ const Index = () => {
             <BenchmarkChart />
           </div>
           <div>
-            <DcaAlertCard />
+            <DcaAlertCard variant="compact" />
           </div>
         </div>
 
