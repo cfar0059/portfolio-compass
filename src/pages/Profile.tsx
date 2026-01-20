@@ -21,11 +21,7 @@ const Profile = () => {
   const [age, setAge] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
-  useEffect(() => {
-    if (!loading && !user) {
-      navigate('/login');
-    }
-  }, [user, loading, navigate]);
+  // Frontend-only: no auth redirect
 
   useEffect(() => {
     if (profile) {
