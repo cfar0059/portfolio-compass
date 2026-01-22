@@ -26,13 +26,11 @@ interface BenchmarkSelectorProps {
 }
 
 export function BenchmarkSelector({ value, onValueChange }: BenchmarkSelectorProps) {
-  const selectedOption = benchmarkOptions.find((o) => o.value === value);
-
   return (
-    <div className="flex items-center gap-2">
-      <span className="text-sm text-muted-foreground">Compare to:</span>
+    <div className="flex flex-col gap-1.5 w-full sm:w-auto">
+      <span className="text-xs text-muted-foreground font-medium">Compare to:</span>
       <Select value={value} onValueChange={onValueChange}>
-        <SelectTrigger className="w-[160px] bg-card border-border">
+        <SelectTrigger className="w-full sm:w-[180px] bg-card border-border">
           <SelectValue placeholder="Select benchmark" />
         </SelectTrigger>
         <SelectContent className="bg-popover border-border">

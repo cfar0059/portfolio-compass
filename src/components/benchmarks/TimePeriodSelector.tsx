@@ -31,20 +31,23 @@ interface TimePeriodSelectorProps {
 
 export function TimePeriodSelector({ value, onValueChange }: TimePeriodSelectorProps) {
   return (
-    <Select value={value} onValueChange={onValueChange}>
-      <SelectTrigger className="w-[160px] bg-card border-border">
-        <SelectValue placeholder="Select period" />
-      </SelectTrigger>
-      <SelectContent className="bg-popover border-border">
-        {timePeriodOptions.map((option) => (
-          <SelectItem key={option.value} value={option.value} className="cursor-pointer">
-            <div className="flex flex-col">
-              <span className="font-medium">{option.label}</span>
-              <span className="text-xs text-muted-foreground">{option.description}</span>
-            </div>
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <div className="flex flex-col gap-1.5 w-full sm:w-auto">
+      <span className="text-xs text-muted-foreground font-medium sm:sr-only">Time Period</span>
+      <Select value={value} onValueChange={onValueChange}>
+        <SelectTrigger className="w-full sm:w-[180px] bg-card border-border">
+          <SelectValue placeholder="Select period" />
+        </SelectTrigger>
+        <SelectContent className="bg-popover border-border">
+          {timePeriodOptions.map((option) => (
+            <SelectItem key={option.value} value={option.value} className="cursor-pointer">
+              <div className="flex flex-col">
+                <span className="font-medium">{option.label}</span>
+                <span className="text-xs text-muted-foreground">{option.description}</span>
+              </div>
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
   );
 }

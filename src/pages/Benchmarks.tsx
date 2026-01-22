@@ -56,7 +56,7 @@ const Benchmarks = () => {
         </div>
 
         {/* Controls Row */}
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
           <TimePeriodSelector value={timePeriod} onValueChange={setTimePeriod} />
           <BenchmarkSelector value={selectedBenchmark} onValueChange={setSelectedBenchmark} />
         </div>
