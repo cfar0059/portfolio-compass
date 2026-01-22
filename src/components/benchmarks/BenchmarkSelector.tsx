@@ -30,8 +30,11 @@ export function BenchmarkSelector({ value, onValueChange }: BenchmarkSelectorPro
     <div className="flex flex-col gap-1.5 w-full sm:w-auto">
       <span className="text-xs text-muted-foreground font-medium">Compare to:</span>
       <Select value={value} onValueChange={onValueChange}>
-        <SelectTrigger className="w-full sm:w-[180px] bg-card border-border">
-          <SelectValue placeholder="Select benchmark" />
+        <SelectTrigger className="w-full sm:w-[220px] h-14 bg-card border-border px-4">
+          <div className="flex flex-col items-start text-left">
+            <span className="font-medium">{benchmarkOptions.find(o => o.value === value)?.label}</span>
+            <span className="text-xs text-muted-foreground">{benchmarkOptions.find(o => o.value === value)?.description}</span>
+          </div>
         </SelectTrigger>
         <SelectContent className="bg-popover border-border">
           {benchmarkOptions.map((option) => (
