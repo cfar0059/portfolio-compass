@@ -1,49 +1,97 @@
+import { useState } from 'react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
-import { BenchmarkChart } from '@/components/dashboard/BenchmarkChart';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { TrendingUp, TrendingDown } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { TimePeriodSelector, TimePeriod } from '@/components/benchmarks/TimePeriodSelector';
+import { BenchmarkSelector, Benchmark, benchmarkOptions } from '@/components/benchmarks/BenchmarkSelector';
+import { ComparisonCards } from '@/components/benchmarks/ComparisonCards';
+import { InsightCard } from '@/components/benchmarks/InsightCard';
+import { ViewToggle, ViewMode } from '@/components/benchmarks/ViewToggle';
+import { PerformanceChart } from '@/components/benchmarks/PerformanceChart';
+import { StatCardsGrid } from '@/components/benchmarks/StatCardsGrid';
+import { EmptyState } from '@/components/benchmarks/EmptyState';
+import { mockPositions } from '@/data/mockPositions';
 
-const benchmarkStats = [
-  { name: 'Your Portfolio', value: '+14.76%', isPositive: true },
-  { name: 'S&P 500', value: '+6.07%', isPositive: true },
-  { name: 'NASDAQ', value: '+8.23%', isPositive: true },
-  { name: 'Dow Jones', value: '+4.12%', isPositive: true },
-];
+// Mock data - in production, these would be calculated from real data
+const mockBenchmarkReturns: Record<Benchmark, number> = {
+  sp500: 6.07,
+  nasdaq: 8.23,
+  dow: 4.12,
+};
+
+const mockPortfolioReturn = 14.76;
 
 const Benchmarks = () => {
+  const [timePeriod, setTimePeriod] = useState<TimePeriod>('since-start');
+  const [selectedBenchmark, setSelectedBenchmark] = useState<Benchmark>('sp500');
+  const [viewMode, setViewMode] = useState<ViewMode>('chart');
+
+  const hasPositions = mockPositions.length > 0;
+  const benchmarkInfo = benchmarkOptions.find((o) => o.value === selectedBenchmark)!;
+  const benchmarkReturn = mockBenchmarkReturns[selectedBenchmark];
+
+  if (!hasPositions) {
+    return (
+      <DashboardLayout>
+        <div className="space-y-6">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">Benchmark Comparison</h1>
+            <p className="text-sm text-muted-foreground mt-2">
+              Compare your portfolio performance against major market indices
+            </p>
+          </div>
+          <EmptyState />
+        </div>
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
+        {/* Header */}
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Benchmark Comparison</h1>
-          <p className="text-muted-foreground">Compare your portfolio against major indices</p>
+          <h1 className="text-3xl font-bold text-foreground">Benchmark Comparison</h1>
+          <p className="text-sm text-muted-foreground mt-2">
+            Compare your portfolio performance against major market indices
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {benchmarkStats.map((stat) => (
-            <Card key={stat.name} className="bg-card border-border">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-muted-foreground">{stat.name}</span>
-                  {stat.isPositive ? (
-                    <TrendingUp className="w-5 h-5 text-primary" />
-                  ) : (
-                    <TrendingDown className="w-5 h-5 text-destructive" />
-                  )}
-                </div>
-                <span className={cn(
-                  "text-2xl font-bold",
-                  stat.isPositive ? "text-primary" : "text-destructive"
-                )}>
-                  {stat.value}
-                </span>
-              </CardContent>
-            </Card>
-          ))}
+        {/* Controls Row */}
+        <div className="flex flex-wrap items-center gap-4">
+          <TimePeriodSelector value={timePeriod} onValueChange={setTimePeriod} />
+          <BenchmarkSelector value={selectedBenchmark} onValueChange={setSelectedBenchmark} />
         </div>
 
-        <BenchmarkChart />
+        {/* Comparison Cards */}
+        <ComparisonCards
+          portfolioReturn={mockPortfolioReturn}
+          benchmarkReturn={benchmarkReturn}
+          benchmarkName={benchmarkInfo.label}
+          benchmarkDescription={benchmarkInfo.description}
+        />
+
+        {/* Insight Card */}
+        <InsightCard
+          portfolioReturn={mockPortfolioReturn}
+          benchmarkReturn={benchmarkReturn}
+          benchmarkName={benchmarkInfo.label}
+        />
+
+        {/* View Toggle */}
+        <ViewToggle value={viewMode} onValueChange={setViewMode} />
+
+        {/* Performance Chart OR Stat Cards Grid */}
+        {viewMode === 'chart' ? (
+          <PerformanceChart
+            benchmarkName={benchmarkInfo.label}
+            benchmarkKey={selectedBenchmark}
+          />
+        ) : (
+          <StatCardsGrid
+            portfolioReturn={mockPortfolioReturn}
+            benchmarkReturns={mockBenchmarkReturns}
+            selectedBenchmark={selectedBenchmark}
+          />
+        )}
       </div>
     </DashboardLayout>
   );
