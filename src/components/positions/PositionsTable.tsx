@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowUpDown, Pencil, X, Plus, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -131,12 +132,20 @@ export function PositionsTable() {
 }
 
 function PositionRow({ position }: { position: Position }) {
+  const navigate = useNavigate();
   const { profit, profitPercent } = calculateProfit(position);
   const isPositive = profit >= 0;
   const hasDcaAlert = position.dcaThreshold !== undefined;
 
+  const handleRowClick = () => {
+    navigate(`/positions/${position.symbol.toLowerCase()}`);
+  };
+
   return (
-    <TableRow className="border-border hover:bg-accent/30 transition-colors">
+    <TableRow 
+      className="border-border hover:bg-accent/30 transition-colors cursor-pointer"
+      onClick={handleRowClick}
+    >
       <TableCell>
         <div className="flex items-center gap-2">
           <span className={cn(
@@ -195,7 +204,7 @@ function PositionRow({ position }: { position: Position }) {
         </div>
       </TableCell>
       <TableCell>
-        <div className="flex items-center justify-end gap-1">
+        <div className="flex items-center justify-end gap-1" onClick={(e) => e.stopPropagation()}>
           <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground">
             <Pencil className="w-4 h-4" />
           </Button>
