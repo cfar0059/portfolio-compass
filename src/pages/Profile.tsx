@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { User, LogOut } from 'lucide-react';
+import { User, LogOut, Bell, ChevronRight } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
@@ -174,6 +174,33 @@ const Profile = () => {
             >
               {isSaving ? "Saving..." : "Save Changes"}
             </Button>
+          </CardContent>
+        </Card>
+
+        {/* Notification Preferences Link */}
+        <Card className="bg-card border-border">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg font-semibold text-foreground flex items-center gap-2">
+              <Bell className="w-5 h-5 text-muted-foreground" />
+              Notifications
+            </CardTitle>
+            <CardDescription>
+              Configure how you receive price alerts
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link
+              to="/profile/notifications"
+              className="flex items-center justify-between p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors group"
+            >
+              <div>
+                <p className="font-medium text-foreground">Notification Preferences</p>
+                <p className="text-sm text-muted-foreground">
+                  Email, alert limits, and cooldown settings
+                </p>
+              </div>
+              <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+            </Link>
           </CardContent>
         </Card>
       </div>
