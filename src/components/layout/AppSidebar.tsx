@@ -1,4 +1,4 @@
-import { LayoutDashboard, TrendingUp, LineChart, Bell, User, Flame } from 'lucide-react';
+import { LayoutDashboard, TrendingUp, LineChart, Bell, User, Flame, Search } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import {
   Sidebar,
@@ -15,6 +15,7 @@ import {
 const navItems = [
   { title: 'Overview', url: '/', icon: LayoutDashboard },
   { title: 'Positions', url: '/positions', icon: TrendingUp },
+  { title: 'Analyze', url: '/analyze', icon: Search },
   { title: 'Benchmarks', url: '/benchmarks', icon: LineChart },
   { title: 'Alerts', url: '/alerts', icon: Bell },
   { title: 'Profile', url: '/profile', icon: User },
