@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import Positions from "./pages/Positions";
+import Analyze from "./pages/Analyze";
 import Benchmarks from "./pages/Benchmarks";
 import Alerts from "./pages/Alerts";
 import Profile from "./pages/Profile";
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/positions" element={<Positions />} />
             <Route path="/positions/:symbol" element={<PositionDetail />} />
+            <Route path="/analyze" element={<Analyze />} />
             <Route path="/benchmarks" element={<Benchmarks />} />
             <Route path="/alerts" element={<Alerts />} />
             <Route path="/profile" element={<Profile />} />
