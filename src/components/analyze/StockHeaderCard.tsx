@@ -1,5 +1,6 @@
 import { TrendingUp, TrendingDown } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { StockAnalysis } from '@/data/mockStockAnalysis';
 import { cn } from '@/lib/utils';
 
@@ -25,7 +26,13 @@ export function StockHeaderCard({ stock }: StockHeaderCardProps) {
       <CardContent className="p-6">
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
           <div>
-            <h2 className="text-3xl font-bold text-foreground">{stock.symbol}</h2>
+            <div className="flex items-center gap-3">
+              <h2 className="text-3xl font-bold text-foreground">{stock.symbol}</h2>
+              <div className="flex items-center gap-1.5">
+                <Badge variant="secondary" className="text-xs">{stock.sector}</Badge>
+                <Badge variant="outline" className="text-xs">{stock.industry}</Badge>
+              </div>
+            </div>
             <p className="text-sm text-muted-foreground mt-1">{stock.companyName}</p>
           </div>
           

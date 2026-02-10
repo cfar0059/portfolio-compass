@@ -5,10 +5,13 @@ import { StockSearchInput } from '@/components/analyze/StockSearchInput';
 import { StockHeaderCard } from '@/components/analyze/StockHeaderCard';
 import { TechnicalAnalysisCard } from '@/components/analyze/TechnicalAnalysisCard';
 import { AnalystConsensusCard } from '@/components/analyze/AnalystConsensusCard';
-import { AiSentimentCard } from '@/components/analyze/AiSentimentCard';
+import { FundamentalsTab } from '@/components/analyze/FundamentalsTab';
+import { NewsTab } from '@/components/analyze/NewsTab';
 import { AnalyzeEmptyState } from '@/components/analyze/AnalyzeEmptyState';
 import { AnalyzeLoadingSkeleton } from '@/components/analyze/AnalyzeLoadingSkeleton';
 import { getStockAnalysis, StockAnalysis } from '@/data/mockStockAnalysis';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function Analyze() {
   const [selectedStock, setSelectedStock] = useState<StockAnalysis | null>(null);
@@ -19,7 +22,6 @@ export default function Analyze() {
     setIsLoading(true);
     setError(null);
 
-    // Simulate API call delay
     setTimeout(() => {
       const analysis = getStockAnalysis(symbol);
       if (analysis) {
@@ -48,7 +50,7 @@ export default function Analyze() {
             <h1 className="text-3xl font-bold text-foreground">Stock Analysis</h1>
           </div>
           <p className="text-sm text-muted-foreground">
-            Search for any stock to view technical analysis and analyst consensus
+            Search for any stock to view fundamentals, technical analysis and analyst consensus
           </p>
         </div>
 
@@ -71,9 +73,32 @@ export default function Analyze() {
         ) : selectedStock ? (
           <div className="space-y-6">
             <StockHeaderCard stock={selectedStock} />
-            <TechnicalAnalysisCard stock={selectedStock} />
+
+            {/* Tab Navigation */}
+            <Tabs defaultValue="fundamentals" className="w-full">
+              <TabsList className="w-full grid grid-cols-3">
+                <TabsTrigger value="fundamentals">Fundamentals</TabsTrigger>
+                <TabsTrigger value="technicals">Technicals</TabsTrigger>
+                <TabsTrigger value="news">News</TabsTrigger>
+              </TabsList>
+
+              <Card className="bg-card border-border rounded-xl mt-4">
+                <CardContent className="p-6">
+                  <TabsContent value="fundamentals" className="mt-0">
+                    <FundamentalsTab stock={selectedStock} />
+                  </TabsContent>
+                  <TabsContent value="technicals" className="mt-0">
+                    <TechnicalAnalysisCard stock={selectedStock} />
+                  </TabsContent>
+                  <TabsContent value="news" className="mt-0">
+                    <NewsTab news={selectedStock.news} symbol={selectedStock.symbol} />
+                  </TabsContent>
+                </CardContent>
+              </Card>
+            </Tabs>
+
+            {/* Shared Analyst Consensus */}
             <AnalystConsensusCard stock={selectedStock} />
-            <AiSentimentCard />
           </div>
         ) : (
           <AnalyzeEmptyState />
